@@ -2,14 +2,14 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var rect = canvas.getBoundingClientRect();
 
-var socket = io.connect('http://localhost:5000/draw_data');
+var socket = io.connect('/draw_data');
 
 var lastMoves = {};
 var drawing = false;
 var isNew = true;
 
-canvas.onmousedown = function(){drawing = true};
-canvas.onmouseup = function(){drawing = false; isNew = true};
+canvas.onmousedown = function(){ drawing = true };
+canvas.onmouseup = function(){ drawing = false; isNew = true };
 canvas.onmousemove = function(e){
 	if (!drawing) return;
 	socket.emit('client_to_server_move', {point: mouseToPoint(e), isNew: isNew});
