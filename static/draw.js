@@ -11,7 +11,7 @@ var isNew = true;
 canvas.onmousedown = function(){drawing = true};
 canvas.onmouseup = function(){drawing = false; isNew = true};
 canvas.onmousemove = function(e){
-	if (drawing == false) return;
+	if (!drawing) return;
 	socket.emit('client_to_server_move', {point: mouseToPoint(e), isNew: isNew});
 	isNew = false;
 }
