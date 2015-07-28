@@ -9,13 +9,16 @@ var drawing = false;
 var isNew = true;
 
 
-canvas.onmousedown = function(){ drawing = true };
-canvas.onmouseup = function(){ drawing = false; isNew = true };
-canvas.onmousemove = function(e){
+canvas.addEventListener('mousedown', function(){ drawing = true });
+canvas.addEventListener('mouseup', function(){ drawing = false; isNew = true });
+
+canvas.addEventListener('mousemove', function(e){
 	if (!drawing) return;
+	
 	socket.emit('client_to_server_move', {point: mouseToPoint(e), isNew: isNew});
 	isNew = false;
-}
+});
+
 socket.on('server_to_client_move', function(move) {
 	if (typeof lastMoves[move.artist] !== 'undefined' && !move.isNew) {
 		var prev = lastMoves[move.artist];
