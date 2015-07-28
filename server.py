@@ -25,22 +25,29 @@ def drawing_room(room):
 	session['artist'] = str(app.artist)
 	session['room'] = room
 	app.artist += 1
+	
 	return app.send_static_file('draw.html')
 
 @socketio.on('connect', namespace='/draw_data')
 def connect():
 	join_room(session['room'])
+	
 	if session['room'] not in app.log:
 		app.log[session['room']] = []
+		
 	for move in app.log[session['room']]:
-		emit('server_to_client_move', move, room = session['room'])
+		emit('server_to_client_move', move, room=session['room'])
 
 
 @socketio.on('client_to_server_move', namespace='/draw_data')
 def received_move(obj):
-	move = {'point':obj['point'],'isNew': obj['isNew'],'artist':session['artist']}
+	move = {'point' : obj['point'],
+		'isNew': obj['isNew'],
+		'artist':session['artist']}
+	
 	app.log[session['room']].append(move)
-	emit('server_to_client_move', move, room = session['room'])
+	
+	emit('server_to_client_move', move, room=session['room'])
 
 if __name__ == '__main__':
 	socketio.run(app)
