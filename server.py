@@ -27,8 +27,8 @@ def drawing_room(room):
 	app.artist += 1
 	return app.send_static_file('draw.html')
 
-@socketio.on('start', namespace='/draw_data')
-def start(stuff):
+@socketio.on('connect', namespace='/draw_data')
+def connect():
 	join_room(session['room'])
 	if session['room'] not in app.log:
 		app.log[session['room']] = []

@@ -16,7 +16,6 @@ canvas.onmousemove = function(e){
 	socket.emit('client_to_server_move', {point: mouseToPoint(e), isNew: isNew});
 	isNew = false;
 }
-socket.emit('start', '');
 socket.on('server_to_client_move', function(move) {
 	if (typeof lastMoves[move.artist] !== 'undefined' && !move.isNew) {
 		var prev = lastMoves[move.artist];
